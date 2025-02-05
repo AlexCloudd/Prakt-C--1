@@ -62,7 +62,6 @@ namespace LibraryApp
 
     public class Library
     {
-        // Сделаем поле books приватным
         private Book[] books;
         private User[] users;
 
