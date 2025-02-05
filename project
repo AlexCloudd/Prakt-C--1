@@ -11,7 +11,7 @@ namespace LibraryApp
         public User(string name)
         {
             Name = name;
-            BorrowedBooks = new string[0]; 
+            BorrowedBooks = new string[0];
         }
 
         public virtual void ShowMenu()
@@ -62,6 +62,7 @@ namespace LibraryApp
 
     public class Library
     {
+        // Сделаем поле books приватным
         private Book[] books;
         private User[] users;
 
@@ -86,8 +87,7 @@ namespace LibraryApp
                             string author = parts[1].Trim();
                             bool isAvailable = bool.Parse(parts[2].Trim());
 
-                            Array.Resize(ref books, books.Length + 1);
-                            books[books.Length - 1] = new Book(title, author) { IsAvailable = isAvailable };
+                            AddBook(title, author, isAvailable);
                         }
                         else
                         {
@@ -151,10 +151,11 @@ namespace LibraryApp
                 Console.WriteLine($"Ошибка при сохранении данных: {ex.Message}");
             }
         }
-        public void AddBook(string title, string author)
+
+        public void AddBook(string title, string author, bool isAvailable = true)
         {
             Array.Resize(ref books, books.Length + 1);
-            books[books.Length - 1] = new Book(title, author);
+            books[books.Length - 1] = new Book(title, author) { IsAvailable = isAvailable };
         }
 
         public void RemoveBook(string title)
@@ -162,9 +163,14 @@ namespace LibraryApp
             books = Array.FindAll(books, b => b.Title != title);
         }
 
-        public Book[] GettingBooks()
+        public Book[] GetAvailableBooks()
         {
             return Array.FindAll(books, b => b.IsAvailable);
+        }
+
+        public Book[] GetAllBooks()
+        {
+            return books;
         }
 
         public void BorrowBook(string title, User user)
@@ -213,11 +219,6 @@ namespace LibraryApp
         public User[] GetAllUsers()
         {
             return users;
-        }
-
-        public Book[] GetAllBooks()
-        {
-            return books;
         }
 
         public bool IsUserRegistered(string name)
@@ -320,7 +321,7 @@ namespace LibraryApp
                     switch (choice)
                     {
                         case 1:
-                            foreach (var book in library.GettingBooks())
+                            foreach (var book in library.GetAvailableBooks())
                             {
                                 Console.WriteLine(book);
                             }
