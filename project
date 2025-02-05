@@ -162,7 +162,7 @@ namespace LibraryApp
             books = Array.FindAll(books, b => b.Title != title);
         }
 
-        public Book[] GetAvailableBooks()
+        public Book[] GettingBooks()
         {
             return Array.FindAll(books, b => b.IsAvailable);
         }
@@ -320,7 +320,7 @@ namespace LibraryApp
                     switch (choice)
                     {
                         case 1:
-                            foreach (var book in library.GetAvailableBooks())
+                            foreach (var book in library.GettingBooks())
                             {
                                 Console.WriteLine(book);
                             }
